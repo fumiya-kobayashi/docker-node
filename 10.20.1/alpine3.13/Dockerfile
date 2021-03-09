@@ -94,7 +94,13 @@ RUN apk add --no-cache --virtual .build-deps-yarn curl gnupg tar \
   # smoke test
   && yarn --version
 
-COPY docker-entrypoint.sh /usr/local/bin/
-ENTRYPOINT ["docker-entrypoint.sh"]
+#COPY docker-entrypoint.sh /usr/local/bin/
+#ENTRYPOINT ["docker-entrypoint.sh"]
+#
+#CMD [ "node" ]
 
-CMD [ "node" ]
+RUN apk add --no-cache tini
+
+ENTRYPOINT ["/sbin/tini", "-e", "143", "--"]
+CMD ["node"]
+
