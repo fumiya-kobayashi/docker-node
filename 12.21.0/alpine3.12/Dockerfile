@@ -2,6 +2,8 @@ FROM alpine:3.12
 
 ENV NODE_VERSION 12.21.0
 
+RUN apk add --no-cache tini
+
 RUN addgroup -g 1000 node \
     && adduser -u 1000 -G node -s /bin/sh -D node \
     && apk add --no-cache \
@@ -98,8 +100,6 @@ RUN apk add --no-cache --virtual .build-deps-yarn curl gnupg tar \
 #ENTRYPOINT ["docker-entrypoint.sh"]
 #
 #CMD [ "node" ]
-
-RUN apk add --no-cache tini
 
 ENTRYPOINT ["/sbin/tini", "-e", "143", "--"]
 CMD ["node"]
